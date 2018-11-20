@@ -10,6 +10,7 @@ class Register extends Component {
         super();
         this.state = {
             name: '',
+            username: '',
             email: '',
             password: '',
             password2: '',
@@ -20,9 +21,16 @@ class Register extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentWillReieveProps(nextProps){
-        if(nextProps.error){
-            this.setState({error: nextProps.error});
+
+    componentDidMount() {
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push('/team');
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            this.setState({ errors: nextProps.errors });
         }
     }
 
