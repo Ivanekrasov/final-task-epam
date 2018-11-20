@@ -3,7 +3,7 @@
 <ul>
 <li><b>Node.js<b></li>
 <li><b>Express<b></li>
-<li><b>MongoDB<b></li>
+<li><b>MongoDB (DBaaS - mLab)<b></li>
 <li><b>React<b></li>
 </ul>
 
@@ -14,8 +14,14 @@ To install <i>client</i> dependencies
 ### `npm run client install `
 To run both
 ### `npm run dev `
-Server is automatically updating with <i>nodemon</i>
+Server is automatically updating with <i>nodemon</i>\
 
-Deploy on <i>Heroku</i> incoming
+You can attempt profile using
+
+Login | Password
+:---:|:---:
+user | 1q2w3e4r
+
+Deploy on <i>[Heroku](https://epam-jsbasics-project.herokuapp.com/)</i> incoming
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
