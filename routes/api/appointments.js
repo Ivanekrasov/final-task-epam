@@ -15,7 +15,7 @@ router.get('/test', (req, res) => res.json({ msg: 'Appointments Works' }));
 
 
 
-// @route   GET api/appointments/
+// @route   GET api/appointments
 // @desc    Get current appointments
 // @access  Private
 router.get(
@@ -39,13 +39,13 @@ router.get(
 
 
 // @route   POST api/appointments
-// @desc    Add an appointment for authenticated user
+// @desc    Add an appointment user
 // @access  Private
 router.post(
     '/',
     passport.authenticate('jwt', { session: false }),
     (req, res) => {
-        const { errors, isValid } = validateAppointmentInput(req.body, true);
+        const {errors, isValid} = validateAppointmentInput(req.body, true);
 
         // Check Validation
         if (!isValid) {
@@ -56,38 +56,38 @@ router.post(
         // Get fields
         const appointmentFields = {};
 
-        appointmentFields.user = req.user.id;
-        appointmentFields.name = req.user.name;
+
+        appointmentFields.name = req.body.name;
         appointmentFields.phone = req.body.phone;
         appointmentFields.date = req.body.date;
+        if (req.body.id) appointmentFields.name = req.body.id;
         if (req.body.name) appointmentFields.name = req.body.name;
         if (req.body.registrated) appointmentFields.registrated = req.body.registrated;
         if (req.body.specialist) appointmentFields.specialist = req.body.specialist;
         if (req.body.price) appointmentFields.price = req.body.price;
 
-        Appointment.findOne({ user: req.user.id, date: req.body.date})
-            .then(appointments => {
-            if (appointments) {
-                // Update
-                Appointment.findOneAndUpdate(
-                    { user: req.user.id },
-                    { $set: appointmentFields },
-                    { new: true }
-                ).then(appointments => res.json(appointments));
-            } else {
-                // Create
+        // Appointment.findOne({ user: req.body.id, date: req.body.date})
+        //     .then(appointments => {
+        //     if (appointments) {
+        //         // Update
+        //         Appointment.findOneAndUpdate(
+        //             { user: req.body.name },
+        //             { $set: appointmentFields },
+        //             { new: true }
+        //         ).then(appointments => res.json(appointments));
+        //     } else {
+        // Create
 
-                // Check if time busy
-                Appointment.findOne({ date: appointmentFields.date }).then(appointments => {
-                    if (appointments) {
-                        errors.date = 'That time is already busy';
-                        return res.status(400).json(errors);
-                    }
-                    // Save Appointment
-                    new Appointment(appointmentFields).save().then(appointments => res.json(appointments));
-                });
+        // Check if time busy
+        Appointment.findOne({date: appointmentFields.date}).then(appointments => {
+            if (appointments) {
+                errors.date = 'That time is already busy';
+                return res.status(400).json(errors);
             }
-        });
+            // Save Appointment
+            new Appointment(appointmentFields).save().then(appointments => res.json(appointments));
+        })
+            .catch(err => res.status(404).json(err));
     }
 );
 
@@ -149,7 +149,7 @@ router.delete(
         Appointment.findByIdAndRemove({ _id: req.params.appID })
             .populate('user', 'name')
             .then(appointments => {
-                appointments.save().then(profile => res.json(profile));
+                appointments.save().then(appointments => res.json(appointments));
             })
             .catch(err => res.status(404).json({err: 'Invalid ID'}));
     }

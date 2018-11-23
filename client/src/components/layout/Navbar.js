@@ -6,6 +6,7 @@ import { logoutUser } from '../../actions/authActions';
 
 import userPic from '../../img/user.jpeg'
 
+
 class Navbar extends Component {
 
     onLogoutClick(e) {
@@ -27,12 +28,19 @@ class Navbar extends Component {
                         <img
                             className="rounded-circle"
                             src= {userPic}
+                            alt= ""
                             title={user.name}
                             style={{ width: '25px', marginRight: '5px' }}
                         />{' '}
                         {' '}
                         Logout
                     </a>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/appointment">
+                        {' '}
+                        Make an appointment
+                    </Link>
                 </li>
             </ul>
         );
@@ -71,15 +79,8 @@ class Navbar extends Component {
                     <div className="collapse navbar-collapse" id="mobile-nav">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/team">
-                                    {' '}
-                                    Our Team
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/about">
-                                    {' '}
-                                    About us
+                                <Link className="nav-link" to="/price">
+                                    Price
                                 </Link>
                             </li>
                         </ul>
